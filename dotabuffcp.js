@@ -26,6 +26,7 @@ var DotaBuffCP = {
     "alchemist": ["razzil"],
     "ancient apparition": ["kaldr", "aa"],
     "anti-mage": ["am"],
+    "arc-warden": [],
     "axe": [],
     "bane": ["atropos"],
     "batrider": [],
