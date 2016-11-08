@@ -1,4 +1,5 @@
 
+
 var DotaBuffCP = {
 
   VERSION: '0.7.1',
@@ -26,9 +27,10 @@ var DotaBuffCP = {
     "alchemist": ["razzil"],
     "ancient apparition": ["kaldr", "aa"],
     "anti-mage": ["am"],
+    "arc warden": ["aw"],
     "axe": [],
     "bane": ["atropos"],
-    "batrider": [],
+    "batrider": ["br"],
     "beastmaster": ["karroch", "rexxar", "bm"],
     "bloodseeker": ["strygwyr", "bs"],
     "bounty hunter": ["gondar", "bh"],
@@ -54,7 +56,7 @@ var DotaBuffCP = {
     "ember spirit": ["xin", "es"],
     "enchantress": ["aiushtha"],
     "enigma": [],
-    "faceless void": ["darkterror"],
+    "faceless void": ["darkterror", "fv"],
     "gyrocopter": ["aurel"],
     "huskar": [],
     "invoker": ["kael", "karl", "carl"],
@@ -66,7 +68,7 @@ var DotaBuffCP = {
     "legion commander": ["tresdin", "lc"],
     "leshrac": [],
     "lich": ["ethreain"],
-    "lifestealer": ["naix"],
+    "lifestealer": ["naix", "ls"],
     "lina": [],
     "lion": [],
     "lone druid": ["sylla", "ld"],
@@ -110,11 +112,11 @@ var DotaBuffCP = {
     "techies": ["goblin","gt","sqee","spleen","spoon"],
     "templar assassin": ["lanaya", "ta"],
     "terrorblade": ["tb"],
-    "tidehunter": ["leviathan"],
-    "timbersaw": ["rizzrack"],
+    "tidehunter": ["leviathan", "th"],
+    "timbersaw": ["rizzrack", "ts"],
     "tinker": ["boush"],
     "tiny": [],
-    "treant protector": ["rooftrellen"],
+    "treant protector": ["rooftrellen", "tp"],
     "troll warlord": ["tw"],
     "tusk": ["ymir"],
     "undying": ["dirge"],
@@ -369,8 +371,17 @@ var MainView = Backbone.View.extend ({
     for (var i in advantages)
       advantages[i] = [advantages[i], i];
 
-    advantages.sort (function (l, r) {
-      return l[0] < r[0] ? -1 : 1;
+    var advdiv = 0;
+    for (var i in DotaBuffCP.lineup) {
+      if (DotaBuffCP.lineup[i] > -1) {
+        advdiv++;
+      }
+    }
+
+    advdiv = advdiv > 0 ? advdiv : 1;
+
+    advantages.sort (function (a, b) {
+      return (a[0] / advdiv - (heroes_wr[a[1]] - 50) / 4) - (b[0] / advdiv - (heroes_wr[b[1]] - 50) / 4);
     });
 
     this.showAdvantages ('best-picks',
